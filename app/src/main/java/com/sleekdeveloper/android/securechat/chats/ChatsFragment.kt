@@ -1,20 +1,18 @@
 package com.sleekdeveloper.android.securechat.chats
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.sleekdeveloper.android.securechat.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChatsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = ChatsFragment()
-    }
-
-    private lateinit var viewModel: ChatsViewModel
+    private val viewModel by viewModels<ChatsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,11 +20,4 @@ class ChatsFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.chats_fragment, container, false)
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ChatsViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }
