@@ -6,6 +6,8 @@ import androidx.lifecycle.map
 import com.sleekdeveloper.android.securechat.data.Result
 import com.sleekdeveloper.android.securechat.data.Result.Success
 import com.sleekdeveloper.android.securechat.data.source.domain.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FakeRepository @Inject constructor() : AppRepository {
@@ -14,7 +16,7 @@ class FakeRepository @Inject constructor() : AppRepository {
     override fun observeUserExists(): LiveData<Result<Boolean>> =
         observableUser.map { Success(it != null) }
 
-    override suspend fun saveUser(user: User) {
+    override suspend fun saveUser(user: User) = withContext(Dispatchers.Main) {
         observableUser.value = user
     }
 }

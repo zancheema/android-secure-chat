@@ -14,7 +14,11 @@ class MainViewModel @Inject constructor(
 
     enum class AuthenticationState {
         AUTHENTICATED,
-        UNAUTHENTICATED
+        UNAUTHENTICATED;
+
+        override fun toString(): String =
+            if (this == AUTHENTICATED) "Authenticated"
+            else "Unauthenticated"
     }
 
     val authenticationState = repository.observeUserExists().map { result ->
