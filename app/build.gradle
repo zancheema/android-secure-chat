@@ -74,6 +74,9 @@ dependencies {
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_androidx_version"
     kapt "androidx.hilt:hilt-compiler:$hilt_androidx_version"
 
+    // utilities
+    implementation "com.hbb20:ccp:$country_code_picker_version"
+
     testImplementation 'junit:junit:4.13.1'
     testImplementation "androidx.arch.core:core-testing:$arch_testing_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"

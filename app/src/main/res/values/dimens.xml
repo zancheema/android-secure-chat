@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="auth_text_view_corner_radius">8dp</dimen>
+    <dimen name="auth_text_view_padding">8dp</dimen>
+    <dimen name="auth_text_view_stroke_width">1dp</dimen>
+</resources>
