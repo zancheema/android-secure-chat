@@ -33,6 +33,8 @@ ext {
     // always use 1.3.0+ else gives error
     androidx_test_core_version = '1.3.0'
     arch_lifecycle_version = '2.3.0'
+    arch_testing_version = '2.1.0'
+    coroutines_version = '1.3.2'
     fragment_version = '1.2.5'
     hilt_androidx_version = '1.0.0-alpha03'
 }

@@ -5,9 +5,7 @@ import com.sleekdeveloper.android.securechat.data.source.domain.User
 import com.sleekdeveloper.android.securechat.data.Result
 
 interface AppRepository {
-    fun observeUser(): LiveData<Result<User>>
-
-    suspend fun getUser(): Result<User>
+    fun observeUserExists(): LiveData<Result<Boolean>>
 
     suspend fun saveUser(user: User)
 }
