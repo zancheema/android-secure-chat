@@ -1,17 +1,18 @@
 package com.sleekdeveloper.android.securechat.auth
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.sleekdeveloper.android.securechat.R
 import com.sleekdeveloper.android.securechat.databinding.AuthFragmentBinding
 import com.sleekdeveloper.android.securechat.util.setUpSnackar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AuthFragment : Fragment() {
 
     private val viewModel by viewModels<AuthViewModel>()
@@ -31,6 +32,9 @@ class AuthFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewDataBinding.lifecycleOwner = viewLifecycleOwner
         setUpSnackbar()
+        viewModel.authenticationState.observe(viewLifecycleOwner) {
+            findNavController()
+        }
     }
 
     private fun setUpSnackbar() {
