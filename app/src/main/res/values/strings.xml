@@ -6,4 +6,5 @@
     <string name="receive_verification_code_tools">You will receive a verification code.<br/>Carrier rates may apply.</string>
     <string name="next">Next</string>
     <string name="country_name">United States</string>
+    <string name="invalid_phone_number">Invalid Phone Number</string>
 </resources>

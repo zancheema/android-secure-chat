@@ -6,27 +6,38 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import com.sleekdeveloper.android.securechat.R
+import com.sleekdeveloper.android.securechat.databinding.AuthFragmentBinding
+import com.sleekdeveloper.android.securechat.util.setUpSnackar
 
 class AuthFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = AuthFragment()
-    }
+    private val viewModel by viewModels<AuthViewModel>()
 
-    private lateinit var viewModel: AuthViewModel
+    private lateinit var viewDataBinding: AuthFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.auth_fragment, container, false)
+    ): View {
+        viewDataBinding = AuthFragmentBinding.inflate(inflater, container, false)
+            .apply { viewmodel = viewModel }
+        return viewDataBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewDataBinding.lifecycleOwner = viewLifecycleOwner
+        setUpSnackbar()
     }
 
+    private fun setUpSnackbar() {
+        requireView().setUpSnackar(
+            viewLifecycleOwner,
+            viewModel.invalidCredentialsEvent,
+            Snackbar.LENGTH_SHORT
+        )
+    }
 }
