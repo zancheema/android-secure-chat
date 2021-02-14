@@ -11,6 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/authConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".auth.AuthFragment">
@@ -22,7 +23,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/enter_phone_number"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -78,6 +79,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:onClick="@{() -> viewmodel.signIn()}"
             android:text="@string/next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -6,12 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import com.sleekdeveloper.android.securechat.Event
 import com.sleekdeveloper.android.securechat.R
-import com.sleekdeveloper.android.securechat.data.source.AppRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(repository: AppRepository) : ViewModel() {
+class AuthViewModel @Inject constructor() : ViewModel() {
 
     enum class AuthenticationState {
         AUTHENTICATED,
@@ -21,13 +20,18 @@ class AuthViewModel @Inject constructor(repository: AppRepository) : ViewModel()
             if (this == AUTHENTICATED) "Authenticated" else "Unauthenticated"
     }
 
-    val countryCode = MutableLiveData(1)
-    val countryName = MutableLiveData<String>()
-    val phoneNumber = MutableLiveData<String>()
     val authenticationState = FirebaseUserLiveData().map { user ->
         if (user == null) AuthenticationState.UNAUTHENTICATED
         else AuthenticationState.AUTHENTICATED
     }
+
+    private val _signInEvent = MutableLiveData<Event<String>>()
+    val signInEvent: LiveData<Event<String>>
+        get() = _signInEvent
+
+    val countryCode = MutableLiveData(1)
+    val countryName = MutableLiveData<String>()
+    val phoneNumber = MutableLiveData<String>()
 
     private val _invalidCredentialsEvent = MutableLiveData<Event<Int>>()
     val invalidCredentialsEvent: LiveData<Event<Int>>
@@ -38,5 +42,6 @@ class AuthViewModel @Inject constructor(repository: AppRepository) : ViewModel()
         if (number == null || number.length < 10) {
             _invalidCredentialsEvent.value = Event(R.string.invalid_phone_number)
         }
+        _signInEvent.value = Event("+${countryCode.value}${phoneNumber.value}")
     }
 }

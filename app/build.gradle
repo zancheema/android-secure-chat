@@ -19,6 +19,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "com.sleekdeveloper.android.securechat.CustomTestRunner"
+        // The following argument makes the Android Test Orchestrator run its
+        // "pm clear" command after each test invocation. This command ensures
+        // that the app's state is completely cleared between tests.
+        testInstrumentationRunnerArguments clearPackageData: 'true'
     }
 
     android {
@@ -56,6 +60,8 @@ android {
         dataBinding true
     }
     testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+
         unitTests.returnDefaultValues = true
     }
 }
@@ -93,7 +99,7 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     // Once https://issuetracker.google.com/127986458 is fixed this can be testImplementation

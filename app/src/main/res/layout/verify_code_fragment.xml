@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.sleekdeveloper.android.securechat.auth.VerifyCodeViewModel" />
+
+        <variable
+            name="phoneNumber"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".auth.VerifyCodeFragment">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{@string/enter_sms_code(phoneNumber)}"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/enter_sms_code_tools" />
+
+        <EditText
+            android:id="@+id/editSmsCode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/auth_text_view_bg"
+            android:ems="10"
+            android:inputType="number"
+            android:maxLength="@integer/sms_code_max_length"
+            app:layout_constraintEnd_toEndOf="@+id/textView4"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/textView4"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <Button
+            android:id="@+id/confirmSmsCodeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/next"
+            app:layout_constraintEnd_toEndOf="@+id/editSmsCode"
+            app:layout_constraintStart_toStartOf="@+id/editSmsCode"
+            app:layout_constraintTop_toBottomOf="@+id/editSmsCode" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

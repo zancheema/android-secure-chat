@@ -7,4 +7,6 @@
     <string name="next">Next</string>
     <string name="country_name">United States</string>
     <string name="invalid_phone_number">Invalid Phone Number</string>
+    <string name="enter_sms_code">Enter the code we sent\nto %s</string>
+    <string name="enter_sms_code_tools">Enter the code we sent<br/>to +1 4525559876</string>
 </resources>
