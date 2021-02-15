@@ -11,4 +11,5 @@
     <string name="enter_sms_code_tools">Enter the code we sent<br/>to +1 4525559876</string>
     <string name="text_message">Hey! Let\'s meet at the cafe.</string>
     <string name="contactName">Dwayne Johnson</string>
+    <string name="message">Message</string>
 </resources>

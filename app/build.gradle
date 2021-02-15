@@ -5,6 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
+    id 'org.jetbrains.kotlin.android.extensions'
 }
 
 android {
@@ -66,6 +67,9 @@ android {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
 
         unitTests.returnDefaultValues = true
+    }
+    androidExtensions {
+        experimental true // for @Parcelize
     }
 }
 

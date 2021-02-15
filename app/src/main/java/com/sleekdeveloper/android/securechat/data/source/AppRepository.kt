@@ -8,9 +8,17 @@ import com.sleekdeveloper.android.securechat.data.source.domain.ChatMessage
 import com.sleekdeveloper.android.securechat.data.source.domain.UserDetail
 
 interface AppRepository {
-    fun getChats(): Result<List<Chat>>
+    suspend fun getUserDetail(): Result<UserDetail>
+
+    fun observeUserDetail(): LiveData<Result<UserDetail>>
+
+    suspend fun getChats(): Result<List<Chat>>
 
     fun observeChats(): LiveData<Result<List<Chat>>>
+
+    suspend fun getMessages(phoneNumber: String): Result<List<ChatMessage>>
+
+    fun observeMessages(phoneNumber: String): LiveData<Result<List<ChatMessage>>>
 
     fun observeUserExists(): LiveData<Result<Boolean>>
 

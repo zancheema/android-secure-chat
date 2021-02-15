@@ -18,7 +18,29 @@ class FakeRepository @Inject constructor() : AppRepository {
     private var observableUserDetail = MutableLiveData<UserDetail>(null)
     private val observableChatMessages = MutableLiveData<List<ChatMessage>>()
 
-    override fun getChats(): Result<List<Chat>> {
+    override suspend fun getUserDetail(): Result<UserDetail> {
+        return observableUserDetail.value?.let {
+            Success(it)
+        } ?: Result.Error(Exception("user does not exist"))
+    }
+
+    override fun observeMessages(phoneNumber: String): LiveData<Result<List<ChatMessage>>> =
+        observableChatMessages.map { messages ->
+            val msg = messages.filter {
+                it.from.phoneNumber == phoneNumber || it.to.phoneNumber == phoneNumber
+            }
+            Success(msg)
+        }
+
+    override suspend fun getMessages(phoneNumber: String): Result<List<ChatMessage>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun observeUserDetail(): LiveData<Result<UserDetail>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getChats(): Result<List<Chat>> {
         TODO("Not yet implemented")
     }
 

@@ -8,7 +8,23 @@ import com.sleekdeveloper.android.securechat.data.source.domain.User
 import com.sleekdeveloper.android.securechat.data.source.domain.UserDetail
 
 class DefaultRepository : AppRepository {
-    override fun getChats(): Result<List<Chat>> {
+    override suspend fun getUserDetail(): Result<UserDetail> {
+        TODO("Not yet implemented")
+    }
+
+    override fun observeMessages(phoneNumber: String): LiveData<Result<List<ChatMessage>>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getMessages(phoneNumber: String): Result<List<ChatMessage>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun observeUserDetail(): LiveData<Result<UserDetail>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getChats(): Result<List<Chat>> {
         TODO("Not yet implemented")
     }
 

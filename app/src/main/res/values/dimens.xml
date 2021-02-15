@@ -9,4 +9,11 @@
     <dimen name="cardview_padding">8dp</dimen>
     <dimen name="all_chats_profile_img_dimens">50dp</dimen>
     <dimen name="auth_profile_img_corner_radius">50dp</dimen>
+    <dimen name="message_margin_horizontal">4dp</dimen>
+    <dimen name="message_margin_vertical">4dp</dimen>
+    <dimen name="message_padding_bottom">8dp</dimen>
+    <dimen name="message_padding_end">8dp</dimen>
+    <dimen name="message_padding_start">6dp</dimen>
+    <dimen name="message_padding_top">4dp</dimen>
+    <dimen name="message_radius">12dp</dimen>
 </resources>
