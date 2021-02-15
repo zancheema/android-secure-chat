@@ -1,10 +1,18 @@
 package com.sleekdeveloper.android.securechat.chats
 
 import android.os.Bundle
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.sleekdeveloper.android.securechat.R
 import com.sleekdeveloper.android.securechat.data.source.AppRepository
+import com.sleekdeveloper.android.securechat.data.source.domain.ChatMessage
+import com.sleekdeveloper.android.securechat.data.source.domain.UserDetail
+import com.sleekdeveloper.android.securechat.data.source.saveMessageBlocking
+import com.sleekdeveloper.android.securechat.data.source.saveUserDetailBlocking
 import com.sleekdeveloper.android.securechat.di.AppRepositoryModule
 import com.sleekdeveloper.android.securechat.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -16,26 +24,54 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import javax.inject.Inject
 
-@RunWith(AndroidJUnit4::class)
 @MediumTest
+@RunWith(AndroidJUnit4::class)
 @UninstallModules(AppRepositoryModule::class)
 @HiltAndroidTest
 class ChatsFragmentTest {
 
-    @get:Rule
-    var hiltRule = HiltAndroidRule(this)
+    private val me = UserDetail("12345674389", "Jane", "Doe", msgToken = "other_token")
+    private val otherUser1 = UserDetail("12345676347", "John", "Doe", msgToken = "other_token")
+    private val otherUser2 = UserDetail("12345656381", "Dwayne", "Johnson", msgToken = "other_token")
+    private val msg1 = ChatMessage("Hey!", otherUser1, me)
+    private val msg2 = ChatMessage("Hi!", me, otherUser1, isMine = true)
+    private val msg3 = ChatMessage("Lets grab some coffee", otherUser1, me)
+    private val msg4 = ChatMessage("Alright", me, otherUser1, isMine = true)
+    private val msg5 = ChatMessage("Great!", otherUser1, me) // most recent 1
+    private val msg6 = ChatMessage("Hello!", otherUser2, me) // most recent 2
+    private val allMessages = listOf(
+        msg1, msg2, msg3, msg4, msg5, msg6
+    )
 
     @Inject
     lateinit var repository: AppRepository
 
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
     @Before
     fun init() {
-        // Populate @Inject fields in test class
         hiltRule.inject()
+        repository.saveUserDetailBlocking(me)
+        allMessages.forEach {
+            repository.saveMessageBlocking(it)
+        }
     }
 
     @Test
-    fun launchSuccessfully() {
+    fun chatList_ShowsChatHeadsWithRecentChats() {
         launchFragmentInHiltContainer<ChatsFragment>(Bundle(), R.style.Theme_SecureChat)
+
+        onView(withText(msg1.message)).check(doesNotExist())
+        onView(withText(msg2.message)).check(doesNotExist())
+        onView(withText(msg3.message)).check(doesNotExist())
+        onView(withText(msg4.message)).check(doesNotExist())
+        onView(withId(R.id.chatsList)).apply {
+            check(matches(isDisplayed()))
+            check(matches(hasDescendant(withText(msg5.from.fullName))))
+            check(matches(hasDescendant(withText(msg6.message))))
+            check(matches(hasDescendant(withText(msg6.from.fullName))))
+            check(matches(hasDescendant(withText(msg5.message))))
+        }
     }
 }

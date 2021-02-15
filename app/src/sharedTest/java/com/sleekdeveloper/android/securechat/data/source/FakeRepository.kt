@@ -61,7 +61,7 @@ class FakeRepository @Inject constructor() : AppRepository {
         observableUser.value = user
     }
 
-    override suspend fun saveUserDetail(detail: UserDetail) {
+    override suspend fun saveUserDetail(detail: UserDetail) = withContext(Dispatchers.Main) {
         observableUserDetail.value = detail
     }
 
