@@ -10,8 +10,8 @@ object ChatBinding {
     fun setChatMessages(recyclerView: RecyclerView, messages: List<ChatMessage>?) {
         if (messages == null) return
         if (recyclerView.adapter == null) {
-            recyclerView.adapter = MessagesListAdapter()
+            recyclerView.adapter = ChatMessagesListAdapter()
         }
-        (recyclerView.adapter as MessagesListAdapter).submitList(messages)
+        (recyclerView.adapter as ChatMessagesListAdapter).submitList(messages)
     }
 }

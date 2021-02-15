@@ -9,8 +9,8 @@ import com.sleekdeveloper.android.securechat.data.source.domain.ChatMessage
 import com.sleekdeveloper.android.securechat.databinding.ChatMessageItemBinding
 
 
-class MessagesListAdapter :
-    ListAdapter<ChatMessage, MessagesListAdapter.ViewHolder>(ChatMessageDiffUtil()) {
+class ChatMessagesListAdapter :
+    ListAdapter<ChatMessage, ChatMessagesListAdapter.ViewHolder>(ChatMessageDiffUtil()) {
 
     class ViewHolder private constructor(
         private val binding: ChatMessageItemBinding
