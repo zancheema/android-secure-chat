@@ -3,14 +3,20 @@ package com.sleekdeveloper.android.securechat.auth.verify
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.sleekdeveloper.android.securechat.Event
+import com.sleekdeveloper.android.securechat.data.Result.Success
+import com.sleekdeveloper.android.securechat.data.source.AppRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class VerifyCodeViewModel @Inject constructor() : ViewModel() {
+class VerifyCodeViewModel @Inject constructor(
+    private val repository: AppRepository
+) : ViewModel() {
 
     val phoneNumber = MutableLiveData<String>()
     val verificationId = MutableLiveData<String>()
@@ -20,8 +26,31 @@ class VerifyCodeViewModel @Inject constructor() : ViewModel() {
     val verificationEvent: LiveData<Event<AuthCredential>>
         get() = _verificationEvent
 
+    private val _showChatsEvent = MutableLiveData<Event<Boolean>>()
+    val showChatsEvent: LiveData<Event<Boolean>>
+        get() = _showChatsEvent
+
+    private val _showRegistrationEvent = MutableLiveData<Event<Boolean>>()
+    val showRegistrationEvent: LiveData<Event<Boolean>>
+        get() = _showRegistrationEvent
+
     fun verify() {
-        _verificationEvent.value =
-            Event(PhoneAuthProvider.getCredential(verificationId.value!!, smsCode.value!!))
+        viewModelScope.launch {
+            val isRegistered = repository.isRegisteredPhoneNumber(phoneNumber.value!!)
+            if (isRegistered is Success && isRegistered.data) {
+                showChats()
+            } else {
+                _verificationEvent.value =
+                    Event(PhoneAuthProvider.getCredential(verificationId.value!!, smsCode.value!!))
+            }
+        }
+    }
+
+    fun showChats() {
+        _showChatsEvent.value = Event(true)
+    }
+
+    fun showRegistration() {
+        _showRegistrationEvent.value = Event(true)
     }
 }

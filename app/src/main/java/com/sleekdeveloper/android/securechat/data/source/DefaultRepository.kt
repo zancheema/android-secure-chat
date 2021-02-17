@@ -24,6 +24,10 @@ class DefaultRepository : AppRepository {
         TODO("Not yet implemented")
     }
 
+    override suspend fun isRegisteredPhoneNumber(phoneNumber: String): Result<Boolean> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getChats(): Result<List<Chat>> {
         TODO("Not yet implemented")
     }

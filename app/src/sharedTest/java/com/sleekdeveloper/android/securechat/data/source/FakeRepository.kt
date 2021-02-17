@@ -12,9 +12,13 @@ import com.sleekdeveloper.android.securechat.data.source.domain.UserDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class FakeRepository @Inject constructor() : AppRepository {
+
     private val observableUser = MutableLiveData<User>(null)
+    private val observableUsers = MutableLiveData<List<User>>(emptyList())
     private var observableUserDetail = MutableLiveData<UserDetail>(null)
     private val observableChatMessages = MutableLiveData<List<ChatMessage>>()
 
@@ -39,6 +43,14 @@ class FakeRepository @Inject constructor() : AppRepository {
     override fun observeUserDetail(): LiveData<Result<UserDetail>> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun isRegisteredPhoneNumber(phoneNumber: String): Result<Boolean> =
+        withContext(Dispatchers.IO) {
+            for (u in observableUsers.value!!) {
+                if (u.phoneNumber == phoneNumber) return@withContext Success(true)
+            }
+            Success(false)
+        }
 
     override suspend fun getChats(): Result<List<Chat>> {
         TODO("Not yet implemented")
@@ -80,7 +92,9 @@ class FakeRepository @Inject constructor() : AppRepository {
         observableUser.map { Success(it != null) }
 
     override suspend fun saveUser(user: User) = withContext(Dispatchers.Main) {
+        // save user
         observableUser.value = user
+        observableUsers.value = observableUsers.value!!.toMutableList().apply { add(user) }
     }
 
     override suspend fun saveUserDetail(detail: UserDetail) = withContext(Dispatchers.Main) {

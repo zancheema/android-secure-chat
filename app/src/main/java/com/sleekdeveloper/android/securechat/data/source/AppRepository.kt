@@ -12,6 +12,8 @@ interface AppRepository {
 
     fun observeUserDetail(): LiveData<Result<UserDetail>>
 
+    suspend fun isRegisteredPhoneNumber(phoneNumber: String): Result<Boolean>
+
     suspend fun getChats(): Result<List<Chat>>
 
     fun observeChats(): LiveData<Result<List<Chat>>>

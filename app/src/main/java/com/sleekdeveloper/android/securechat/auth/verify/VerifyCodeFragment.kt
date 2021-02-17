@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.sleekdeveloper.android.securechat.EventObserver
+import com.sleekdeveloper.android.securechat.auth.verify.VerifyCodeFragmentDirections.Companion.actionVerifyCodeFragmentToChatsFragment
 import com.sleekdeveloper.android.securechat.auth.verify.VerifyCodeFragmentDirections.Companion.actionVerifyCodeFragmentToRegisterFragment
 import com.sleekdeveloper.android.securechat.databinding.VerifyCodeFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +35,16 @@ class VerifyCodeFragment : Fragment() {
         viewDataBinding.lifecycleOwner = viewLifecycleOwner
         setUpArgs()
         setUpAuth()
+        setUpNavigation()
+    }
+
+    private fun setUpNavigation() {
+        viewModel.showRegistrationEvent.observe(viewLifecycleOwner, EventObserver {
+            if (it) findNavController().navigate(actionVerifyCodeFragmentToRegisterFragment())
+        })
+        viewModel.showChatsEvent.observe(viewLifecycleOwner, EventObserver {
+            if (it) findNavController().navigate(actionVerifyCodeFragmentToChatsFragment())
+        })
     }
 
     private fun setUpAuth() {
@@ -41,7 +52,7 @@ class VerifyCodeFragment : Fragment() {
             Firebase.auth.signInWithCredential(credentials)
                 .addOnCompleteListener { result ->
                     if (result.isSuccessful) {
-                        findNavController().navigate(actionVerifyCodeFragmentToRegisterFragment())
+                        viewModel.showRegistration()
                     }
                 }
         })
