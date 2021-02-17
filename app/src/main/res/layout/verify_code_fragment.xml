@@ -11,6 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/verifyCodeFragmentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".auth.verify.VerifyCodeFragment">
@@ -39,6 +40,7 @@
             android:ems="10"
             android:inputType="number"
             android:maxLength="@integer/sms_code_max_length"
+            android:text="@={viewmodel.smsCode}"
             app:layout_constraintEnd_toEndOf="@+id/enterSmsCodeTitle"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/enterSmsCodeTitle"
@@ -49,6 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:onClick="@{() -> viewmodel.verify()}"
             android:text="@string/next"
             app:layout_constraintEnd_toEndOf="@+id/editSmsCode"
             app:layout_constraintStart_toStartOf="@+id/editSmsCode"

@@ -3,7 +3,6 @@ package com.sleekdeveloper.android.securechat.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import com.sleekdeveloper.android.securechat.Event
 import com.sleekdeveloper.android.securechat.R
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,26 +11,13 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor() : ViewModel() {
 
-    enum class AuthenticationState {
-        AUTHENTICATED,
-        UNAUTHENTICATED;
-
-        override fun toString(): String =
-            if (this == AUTHENTICATED) "Authenticated" else "Unauthenticated"
-    }
-
-    val authenticationState = FirebaseUserLiveData().map { user ->
-        if (user == null) AuthenticationState.UNAUTHENTICATED
-        else AuthenticationState.AUTHENTICATED
-    }
+    val countryCode = MutableLiveData(1)
+    val countryName = MutableLiveData<String>()
+    val phoneNumber = MutableLiveData<String>()
 
     private val _signInEvent = MutableLiveData<Event<String>>()
     val signInEvent: LiveData<Event<String>>
         get() = _signInEvent
-
-    val countryCode = MutableLiveData(1)
-    val countryName = MutableLiveData<String>()
-    val phoneNumber = MutableLiveData<String>()
 
     private val _invalidCredentialsEvent = MutableLiveData<Event<Int>>()
     val invalidCredentialsEvent: LiveData<Event<Int>>

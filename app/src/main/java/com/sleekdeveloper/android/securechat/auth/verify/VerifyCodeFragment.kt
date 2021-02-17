@@ -6,6 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.sleekdeveloper.android.securechat.EventObserver
+import com.sleekdeveloper.android.securechat.auth.verify.VerifyCodeFragmentDirections.Companion.actionVerifyCodeFragmentToRegisterFragment
 import com.sleekdeveloper.android.securechat.databinding.VerifyCodeFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,10 +33,23 @@ class VerifyCodeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewDataBinding.lifecycleOwner = viewLifecycleOwner
         setUpArgs()
+        setUpAuth()
+    }
+
+    private fun setUpAuth() {
+        viewModel.verificationEvent.observe(viewLifecycleOwner, EventObserver { credentials ->
+            Firebase.auth.signInWithCredential(credentials)
+                .addOnCompleteListener { result ->
+                    if (result.isSuccessful) {
+                        findNavController().navigate(actionVerifyCodeFragmentToRegisterFragment())
+                    }
+                }
+        })
     }
 
     private fun setUpArgs() {
         val args = VerifyCodeFragmentArgs.fromBundle(requireArguments())
         viewModel.phoneNumber.value = args.phoneNumber
+        viewModel.verificationId.value = args.verificationId
     }
 }

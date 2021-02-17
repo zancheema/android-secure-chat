@@ -15,10 +15,8 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.sleekdeveloper.android.securechat.EventObserver
-import com.sleekdeveloper.android.securechat.R
 import com.sleekdeveloper.android.securechat.auth.AuthFragmentDirections.Companion.actionAuthFragmentToRegisterFragment
 import com.sleekdeveloper.android.securechat.auth.AuthFragmentDirections.Companion.actionAuthFragmentToVerifyCodeFragment
-import com.sleekdeveloper.android.securechat.auth.AuthViewModel.AuthenticationState
 import com.sleekdeveloper.android.securechat.databinding.AuthFragmentBinding
 import com.sleekdeveloper.android.securechat.util.setUpSnackar
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +42,6 @@ class AuthFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewDataBinding.lifecycleOwner = viewLifecycleOwner
         setUpSnackbar()
-        setUpNavigation()
         setUpVerification()
     }
 
@@ -52,14 +49,6 @@ class AuthFragment : Fragment() {
         viewModel.signInEvent.observe(viewLifecycleOwner, EventObserver { phoneNumber ->
             verifyPhoneNumber(phoneNumber)
         })
-    }
-
-    private fun setUpNavigation() {
-        viewModel.authenticationState.observe(viewLifecycleOwner) { state ->
-            if (state == AuthenticationState.AUTHENTICATED) {
-                findNavController().navigate(R.id.action_authFragment_to_registerFragment)
-            }
-        }
     }
 
     private fun setUpSnackbar() {
@@ -89,7 +78,12 @@ class AuthFragment : Fragment() {
                 }
 
                 override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
-                    findNavController().navigate(actionAuthFragmentToRegisterFragment())
+                    Firebase.auth.signInWithCredential(phoneAuthCredential)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                findNavController().navigate(actionAuthFragmentToRegisterFragment())
+                            }
+                        }
                 }
 
                 override fun onVerificationFailed(e: FirebaseException) {
