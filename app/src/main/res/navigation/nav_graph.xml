@@ -33,7 +33,7 @@
         tools:layout="@layout/register_fragment" />
     <fragment
         android:id="@+id/verifyCodeFragment"
-        android:name="com.sleekdeveloper.android.securechat.auth.VerifyCodeFragment"
+        android:name="com.sleekdeveloper.android.securechat.auth.verify.VerifyCodeFragment"
         android:label="verify_code_fragment"
         tools:layout="@layout/verify_code_fragment" >
         <action
