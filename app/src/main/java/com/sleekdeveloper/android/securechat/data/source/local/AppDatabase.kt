@@ -7,7 +7,8 @@ import androidx.room.RoomDatabase
     entities = [
         DbUser::class,
         DbUserDetail::class,
-        DbChatRoom::class
+        DbChatRoom::class,
+        DbChatRoomMember::class
     ],
     version = 1,
     exportSchema = false
@@ -16,4 +17,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun userDetailDao(): UserDetailDao
     abstract fun chatRoomDao(): ChatRoomDao
+    abstract fun chatRoomMemberDao(): ChatRoomMemberDao
 }
