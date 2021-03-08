@@ -12,7 +12,7 @@ interface ChatRoomMemberDao {
     suspend fun getChatRoomMembersByChatRoomId(chatRoomId: String): List<DbChatRoomMember>
 
     @Query("SELECT * FROM chat_room_members WHERE phone_number = :phoneNumber")
-    fun getChatRoomMembersByPhoneNumber(phoneNumber: String): List<DbChatRoomMember>
+    suspend fun getChatRoomMembersByPhoneNumber(phoneNumber: String): List<DbChatRoomMember>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertChatRoomMember(member: DbChatRoomMember)
