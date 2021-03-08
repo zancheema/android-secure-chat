@@ -1,4 +1,4 @@
-package com.sleekdeveloper.android.securechat.data.source.local
+package com.sleekdeveloper.android.securechat.data.source.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

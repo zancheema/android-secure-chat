@@ -1,7 +1,8 @@
-package com.sleekdeveloper.android.securechat.data.source.local
+package com.sleekdeveloper.android.securechat.data.source.local.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.sleekdeveloper.android.securechat.data.source.local.entity.DbUser
 
 @Dao
 interface UserDao {

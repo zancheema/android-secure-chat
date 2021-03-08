@@ -1,6 +1,6 @@
 package com.sleekdeveloper.android.securechat.data.source.domain
 
-import com.sleekdeveloper.android.securechat.data.source.local.DbUser
+import com.sleekdeveloper.android.securechat.data.source.local.entity.DbUser
 
 data class User(
     val phoneNumber: String,

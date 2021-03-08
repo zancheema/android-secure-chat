@@ -1,4 +1,4 @@
-package com.sleekdeveloper.android.securechat.data.source.local
+package com.sleekdeveloper.android.securechat.data.source.local.dao
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
@@ -6,6 +6,9 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.sleekdeveloper.android.securechat.MainCoroutineRule
+import com.sleekdeveloper.android.securechat.data.source.local.AppDatabase
+import com.sleekdeveloper.android.securechat.data.source.local.entity.DbUser
+import com.sleekdeveloper.android.securechat.data.source.local.entity.DbUserDetail
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat

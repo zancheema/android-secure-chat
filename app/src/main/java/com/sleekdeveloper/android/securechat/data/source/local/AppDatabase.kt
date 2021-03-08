@@ -2,6 +2,8 @@ package com.sleekdeveloper.android.securechat.data.source.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.sleekdeveloper.android.securechat.data.source.local.dao.*
+import com.sleekdeveloper.android.securechat.data.source.local.entity.*
 
 @Database(
     entities = [
