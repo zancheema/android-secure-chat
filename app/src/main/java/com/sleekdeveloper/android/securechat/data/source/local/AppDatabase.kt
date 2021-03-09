@@ -11,7 +11,8 @@ import com.sleekdeveloper.android.securechat.data.source.local.entity.*
         DbUserDetail::class,
         DbChatRoom::class,
         DbChatRoomMember::class,
-        DbChatRoomDetail::class
+        DbChatRoomDetail::class,
+        DbChatMessage::class
     ],
     version = 1,
     exportSchema = false
@@ -22,4 +23,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun chatRoomDao(): ChatRoomDao
     abstract fun chatRoomMemberDao(): ChatRoomMemberDao
     abstract fun chatRoomDetailDao(): ChatRoomDetailDao
+    abstract fun chatMessageDao(): ChatMessageDao
 }
