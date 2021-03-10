@@ -17,7 +17,7 @@ interface AppDataSource {
 
     fun observeChatRoomMembersByPhoneNumber(phoneNumber: String): LiveData<Result<List<ChatRoomMember>>>
 
-    suspend fun getUser(): Result<User>
+    suspend fun getUserByPhoneNumber(phoneNumber: String): Result<User>
 
     suspend fun getUserDetailByPhoneNumber(phoneNumber: String): Result<UserDetail>
 
@@ -29,6 +29,10 @@ interface AppDataSource {
 
     suspend fun getChatRoomMembersByPhoneNumber(phoneNumber: String): Result<List<ChatRoomMember>>
 
+    suspend fun getChatMessageById(id: String): Result<ChatMessage>
+
+    suspend fun getChatMessagesByChatRoomId(chatRoomId: String): Result<List<ChatMessage>>
+
     suspend fun saveUser(user: User)
 
     suspend fun saveUserDetail(userDetail: UserDetail)
@@ -39,11 +43,21 @@ interface AppDataSource {
 
     suspend fun saveChatRoomMember(member: ChatRoomMember)
 
+    suspend fun saveChatMessage(message: ChatMessage)
+
     suspend fun deleteUser(user: User)
 
-    suspend fun deleteAllUsers()
+    suspend fun deleteUserWithPhoneNumber(phoneNumber: String)
 
     suspend fun deleteChatRoom(chatRoom: ChatRoom)
 
+    suspend fun deleteChatRoomWithId(id: String)
+
     suspend fun deleteAllChatRooms()
+
+    suspend fun deleteChatMessage(message: ChatMessage)
+
+    suspend fun deleteChatMessageWithId(id: String)
+
+    suspend fun deleteChatMessagesByChatRoomId(chatRoomId: String)
 }

@@ -12,4 +12,5 @@
     <string name="text_message">Hey! Let\'s meet at the cafe.</string>
     <string name="contactName">Dwayne Johnson</string>
     <string name="message">Message</string>
+    <string name="sample_message">Hello</string>
 </resources>

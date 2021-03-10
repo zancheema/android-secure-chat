@@ -3,6 +3,7 @@ package com.sleekdeveloper.android.securechat.data.source.local.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import com.sleekdeveloper.android.securechat.data.source.domain.UserDetail
 
 /**
  * Detail for [DbUser]
@@ -28,4 +29,11 @@ data class DbUserDetail(
     @ColumnInfo(name = "first_name") val firstName: String,
     @ColumnInfo(name = "last_name") val lastName: String,
     @ColumnInfo(name = "photo_url") val photoUrl: String
+)
+
+fun DbUserDetail.asDomainModel() = UserDetail(
+    phoneNumber = phoneNumber,
+    firstName = firstName,
+    lastName = lastName,
+    imgUrl = photoUrl
 )

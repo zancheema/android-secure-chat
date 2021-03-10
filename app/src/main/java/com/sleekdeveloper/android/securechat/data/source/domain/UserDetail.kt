@@ -1,7 +1,8 @@
 package com.sleekdeveloper.android.securechat.data.source.domain
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import com.sleekdeveloper.android.securechat.data.source.local.entity.DbUserDetail
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserDetail(
@@ -13,3 +14,10 @@ data class UserDetail(
 ) : Parcelable {
     val fullName = "$firstName $lastName"
 }
+
+fun UserDetail.asDatabaseEntity() = DbUserDetail(
+    phoneNumber = phoneNumber,
+    firstName = firstName,
+    lastName = lastName,
+    photoUrl = imgUrl
+)
