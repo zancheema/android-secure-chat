@@ -19,6 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @SmallTest
 class ChatRoomDetailDaoTest {
@@ -81,5 +82,22 @@ class ChatRoomDetailDaoTest {
 
         val loaded = database.chatRoomDetailDao().getChatRoomDetailByChatRoomId(detail.chatRoomId)
         assertThat(loaded, `is`(nullValue()))
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun updateRecentMessage_GetByIdReturnsDetailWithUpdatedRecent() = runBlockingTest {
+        val detail = DbChatRoomDetail(chatRoom.id, "John Doe", "I'm good.")
+        database.chatRoomDetailDao().insertChatRoomDetail(detail)
+
+        val updatedRecentMessage = "OK"
+        database.chatRoomDetailDao().updateRecentMessage(detail.chatRoomId, updatedRecentMessage)
+
+        val loaded = database.chatRoomDetailDao().getChatRoomDetailByChatRoomId(detail.chatRoomId)
+        assertThat(loaded, `is`(notNullValue()))
+        loaded as DbChatRoomDetail
+        assertThat(loaded.chatRoomId, `is`(detail.chatRoomId))
+        assertThat(loaded.name, `is`(detail.name))
+        assertThat(loaded.recentMessage, `is`(updatedRecentMessage))
     }
 }
