@@ -6,14 +6,12 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.sleekdeveloper.android.securechat.MainCoroutineRule
-import com.sleekdeveloper.android.securechat.data.source.domain.User
-import com.sleekdeveloper.android.securechat.data.source.domain.asDatabaseEntity
 import com.sleekdeveloper.android.securechat.data.source.local.AppDatabase
 import com.sleekdeveloper.android.securechat.data.source.local.entity.DbUser
-import com.sleekdeveloper.android.securechat.data.source.local.entity.asDomainModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.CoreMatchers.*
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Before
@@ -21,6 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @SmallTest
 class UserDaoTest {
@@ -55,33 +54,37 @@ class UserDaoTest {
     @After
     fun closeDb() = database.close()
 
-        @ExperimentalCoroutinesApi
+    @ExperimentalCoroutinesApi
     @Test
-    fun getUserReturnsNullWhenUserIsNotInserted() = runBlockingTest {
-        assertThat(userDao.getUser(), `is`(nullValue()))
+    fun insertUserAndGetByPhoneNumber() = runBlockingTest {
+        val user = DbUser("+15465558912")
+        database.userDao().insertUser(user)
+
+        val loaded = database.userDao().getUserByPhoneNumber(user.phoneNumber)
+        assertThat(loaded, `is`(user))
     }
 
     @ExperimentalCoroutinesApi
     @Test
-    fun insertAndGetUser() = runBlockingTest {
-        val user = User("+12345556743")
-        userDao.insertUser(user.asDatabaseEntity())
+    fun deleteUser_getUserByPhoneNumberReturnsNull() = runBlockingTest {
+        val user = DbUser("+15465558912")
+        database.userDao().insertUser(user)
 
-        val loaded = userDao.getUser()
+        database.userDao().deleteUser(user)
 
-        assertThat(loaded, `is`(notNullValue()))
-        loaded as DbUser
-        assertThat(loaded.asDomainModel(), `is`(user))
+        val loaded = database.userDao().getUserByPhoneNumber(user.phoneNumber)
+        assertThat(loaded, `is`(nullValue()))
     }
 
     @ExperimentalCoroutinesApi
     @Test
-    fun insertAndDeleteAllUsers_GetUsersReturnsNull() = runBlockingTest {
-        val user = User("+12345556743")
-        userDao.insertUser(user.asDatabaseEntity())
+    fun deleteUserByPhoneNumber_getUserByPhoneNumberReturnsNull() = runBlockingTest {
+        val user = DbUser("+15465558912")
+        database.userDao().insertUser(user)
 
-        userDao.deleteAllUsers()
+        database.userDao().deleteUserByPhoneNumber(user.phoneNumber)
 
-        assertThat(userDao.getUser(), `is`(nullValue()))
+        val loaded = database.userDao().getUserByPhoneNumber(user.phoneNumber)
+        assertThat(loaded, `is`(nullValue()))
     }
 }
